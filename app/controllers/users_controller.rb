@@ -19,6 +19,6 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
-    @sent_follow_requests = current_user&.sent_follow_requests
   end
+  
 end

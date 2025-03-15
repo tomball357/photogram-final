@@ -16,4 +16,9 @@ class UsersController < ApplicationController
 
     render "feed"
   end
+
+  def index
+    @users = User.all
+    @sent_follow_requests = current_user&.sent_follow_requests
+  end
 end

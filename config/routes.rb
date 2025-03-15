@@ -8,4 +8,7 @@ Rails.application.routes.draw do
 
   get "/users/:username/feed", to: "users#feed", as: "user_feed"
 
+  resources :follow_requests, only: [:create, :destroy]
+
+
 end

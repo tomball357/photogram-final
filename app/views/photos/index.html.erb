@@ -1,6 +1,8 @@
+<h1>All Public Photos</h1>
+
 <% if user_signed_in? %>
   <h2>Add a new photo</h2>
-  <%= form_with model: Photo.new, url: photos_path, local: true do |form| %>
+  <%= form_with model: Photo.new, url: "/photos", local: true do |form| %>
     <div>
       <%= form.label :image, "Image" %>
       <%= form.text_field :image %>
@@ -16,3 +18,28 @@
     </div>
   <% end %>
 <% end %>
+
+<hr>
+
+<h2>Public Photos</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Caption</th>
+      <th>Owner</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @photos.each do |photo| %>
+      <% if !photo.owner.private? %> 
+        <tr>
+          <td><%= image_tag photo.image if photo.image.present? %></td>
+          <td><%= link_to photo.caption, "/photos/#{photo.id}" %></td>
+          <td><%= link_to photo.owner.username, "/users/#{photo.owner.username}" %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

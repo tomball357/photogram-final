@@ -2,14 +2,26 @@ class PhotosController < ApplicationController
 
   skip_before_action(:authenticate_user!, { :only => [:index] })
 
+  def index
+    @photos = Photo.includes(:owner).all
+  end
+  
+
   def create
-    @photo = current_user.photos.build(photo_params)
+    @photo = Photo.new(photo_params)
+    @photo.owner = current_user  # Associate photo with the logged-in user
 
     if @photo.save
-      redirect_to photos_path, notice: "Photo added successfully."
+      redirect_to "/photos", notice: "Photo uploaded successfully."
     else
-      render :new, alert: "Failed to add photo."
+      redirect_to "/photos", alert: "Failed to upload photo."
     end
+  end
+
+  private
+
+  def photo_params
+    params.require(:photo).permit(:image, :caption)
   end
 
   def destroy

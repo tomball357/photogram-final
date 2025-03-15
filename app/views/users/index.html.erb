@@ -13,7 +13,7 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td><%= link_to user.username, user_profile_path(user.username) %></td>
+        <td><%= link_to user.username, "/users/#{user.username}" %></td>
         <td><%= user.private? ? "Yes" : "No" %></td>
 
         <% if user_signed_in? && user != current_user %>
@@ -21,12 +21,12 @@
             <% follow_request = current_user.sent_follow_requests.find_by(recipient: user) %>
 
             <% if follow_request.nil? %>
-              <%= button_to "Follow", follow_requests_path(recipient_id: user.id), method: :post %>
+              <%= button_to "Follow", "/follow_requests?recipient_id=#{user.id}", method: :post %>
             <% elsif follow_request.status == "pending" %>
               Request sent |
-              <%= button_to "Cancel", follow_request_path(follow_request), method: :delete %>
+              <%= button_to "Cancel", "/follow_requests/#{follow_request.id}", method: :delete %>
             <% elsif follow_request.status == "accepted" %>
-              <%= button_to "Unfollow", follow_request_path(follow_request), method: :delete %>
+              <%= button_to "Unfollow", "/follow_requests/#{follow_request.id}", method: :delete %>
             <% end %>
           </td>
         <% end %>

@@ -1,29 +1,33 @@
-<h1><%= @user.username %>'s Profile</h1>
+<h1><%= @user.username %></h1>
 
-<p>Private: <%= @user.private? ? "Yes" : "No" %></p>
-<p>Followers: <%= @followers_count %></p>
+<p>Private: <%= @user.private %></p>
+
+<p>Followers: <%= @follower_count %></p>
 <p>Following: <%= @following_count %></p>
-<p>Photos posted: <%= @photos.count %></p>
 
-<% if user_signed_in? %>
-  <li><%= link_to "Edit Profile", edit_user_registration_path %></li>
+<% if current_user != @user %>
+  <% if current_user.sent_follow_requests.exists?(recipient: @user) %>
+    <a href="#">Unfollow</a>
+  <% else %>
+    <button>Follow</button>
+  <% end %>
 <% end %>
 
-
-
-<h2>Photos</h2>
-<% if @photos.any? %>
-  <ul>
-    <% @photos.each do |photo| %>
-      <li>
-        <h3><%= link_to "View Details", photo_path(photo) %></h3>
-        <img src="<%= photo.image %>" alt="Photo">
-        <p><%= photo.caption %></p>
-        <p>Likes: <%= photo.likes_count %></p>
-        <p>Posted on: <%= photo.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>No photos posted yet.</p>
+<h2>Photos (<%= @photos.count %>)</h2>
+<% @photos.each do |photo| %>
+  <img src="<%= photo.image.url %>" alt="User Photo">
+  <p><%= photo.caption %></p>
+  <p>Likes: <%= photo.likes_count %></p>
+  <p>Posted: <%= time_ago_in_words(photo.created_at) %> ago</p>
+  <a href="/photos/<%= photo.id %>">Show details</a>
 <% end %>
+
+<h2>Pending Follow Requests</h2>
+<% @pending_requests.each do |request| %>
+  <p><%= request.sender.username %></p>
+<% end %>
+
+<h2>Navigation</h2>
+<a href="/users/<%= @user.username %>/feed">Feed</a>
+<a href="/users/<%= @user.username %>/liked_photos">Liked Photos</a>
+<a href="/users/<%= @user.username %>/discover">Discover</a>

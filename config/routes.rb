@@ -1,19 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  
-
-  get "/", to: "home#index"
 
   get "/users/:username", to: "users#show", as: "user_profile"
+  get "/users/:username/feed", to: "users#feed", as: "user_feed"
+  get "/users/:username/liked_photos", to: "users#liked_photos", as: "user_liked_photos"
+  get "/users/:username/discover", to: "users#discover", as: "user_discover"
 
-
-  resources :follow_requests, only: [:create, :destroy]
-  resources :users, only: [:index, :show]
-  resources :photos, only: [:index, :create, :show, :destroy, :update]
-
-
-
+  root "home#index"
 end

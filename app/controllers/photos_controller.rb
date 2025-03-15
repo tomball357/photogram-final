@@ -9,10 +9,10 @@ class PhotosController < ApplicationController
 
   def create
     @photo = Photo.new(photo_params)
-    @photo.owner = current_user  # Associate photo with the logged-in user
-
+    @photo.owner = current_user
+  
     if @photo.save
-      redirect_to "/photos", notice: "Photo uploaded successfully."
+      redirect_to "/photos", notice: "Photo added successfully."
     else
       redirect_to "/photos", alert: "Failed to upload photo."
     end

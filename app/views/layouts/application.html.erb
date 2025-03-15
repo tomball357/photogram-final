@@ -8,12 +8,13 @@
   <body>
     <%= yield %>
 
-    <% if notice %>
-      <p class="notice"><%= notice %></p>
+    <% if flash[:notice] %>
+      <p class="notice"><%= flash[:notice] %></p>
     <% end %>
 
-    <% if alert %>
-      <p class="alert"><%= alert %></p>
+    <% if flash[:alert] %>
+      <p class="alert"><%= flash[:alert] %></p>
     <% end %>
+
   </body>
 </html>

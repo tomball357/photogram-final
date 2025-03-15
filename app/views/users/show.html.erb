@@ -1,0 +1,29 @@
+<h1><%= @user.username %>'s Profile</h1>
+
+<p>Private: <%= @user.private? ? "Yes" : "No" %></p>
+<p>Followers: <%= @followers_count %></p>
+<p>Following: <%= @following_count %></p>
+<p>Photos posted: <%= @photos.count %></p>
+
+<% if user_signed_in? %>
+  <li><%= link_to "Edit Profile", edit_user_registration_path %></li>
+<% end %>
+
+
+
+<h2>Photos</h2>
+<% if @photos.any? %>
+  <ul>
+    <% @photos.each do |photo| %>
+      <li>
+        <h3><%= link_to "View Details", photo_path(photo) %></h3>
+        <img src="<%= photo.image %>" alt="Photo">
+        <p><%= photo.caption %></p>
+        <p>Likes: <%= photo.likes_count %></p>
+        <p>Posted on: <%= photo.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No photos posted yet.</p>
+<% end %>

@@ -1,0 +1,8 @@
+<h2>Discover Photos</h2>
+
+<% @discover_photos.each do |photo| %>
+  <div>
+    <img src="<%= photo.image %>" alt="Discovered photo">
+    <p><%= photo.caption %></p>
+  </div>
+<% end %>

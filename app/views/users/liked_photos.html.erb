@@ -1,0 +1,9 @@
+<h2>Photos Liked by <%= @user.username %></h2>
+
+<% @liked_photos.each do |photo| %>
+  <div>
+    <img src="<%= photo.image %>" alt="Liked photo">
+    <p><%= photo.caption %></p>
+  </div>
+<% end %>
+

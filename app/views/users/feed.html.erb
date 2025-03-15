@@ -1,0 +1,13 @@
+<h2>Feed of <%= @user.username %></h2>
+
+<% if @photos.any? %>
+  <% @photos.each do |photo| %>
+    <div class="photo">
+      <h3><%= photo.owner.username %></h3>
+      <img src="<%= photo.image %>" alt="Photo">
+      <p><%= photo.caption %></p>
+    </div>
+  <% end %>
+<% else %>
+  <p>No photos from followed users yet.</p>
+<% end %>

@@ -1,7 +1,5 @@
 class FollowRequestsController < ApplicationController
-  before_action :authenticate_user!
-  belongs_to :sender, class_name: "User"
-  belongs_to :recipient, class_name: "User"
+ 
 
   def create
     recipient = User.find_by(id: params[:recipient_id])
@@ -43,3 +41,5 @@ class FollowRequestsController < ApplicationController
     end
   end
 end
+
+

@@ -1,0 +1,53 @@
+<h2>Photo Details</h2>
+<img src="<%= @photo.image %>" alt="Photo image">
+<p><%= @photo.caption %></p>
+
+<p>Posted on: <%= @photo.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+
+<h3>Comments</h3>
+<ul>
+  <% @photo.comments.each do |comment| %>
+    <li>
+      <strong><%= comment.author.username %>:</strong> <%= comment.body %>
+    </li>
+  <% end %>
+</ul>
+
+<% if current_user == @photo.owner %>
+  <%= button_to "Delete This Photo", photo_path(@photo), method: :delete, data: { confirm: "Are you sure?" } %>
+<% end %>
+<% if current_user == @photo.owner %>
+  <h3>Edit Photo</h3>
+  <%= form_with model: @photo, url: photo_path(@photo), method: :patch, local: true do |form| %>
+    <div>
+      <%= form.label :caption, "Caption" %>
+      <%= form.text_area :caption %>
+    </div>
+
+    <div>
+      <%= form.submit "Update Photo" %>
+    </div>
+  <% end %>
+<% end %>
+<% if user_signed_in? %>
+  <% if @photo.likes.exists?(fan: current_user) %>
+    <%= button_to "Unlike", like_path(@photo.likes.find_by(fan: current_user)), method: :delete %>
+  <% else %>
+    <%= button_to "Like", likes_path(photo_id: @photo.id), method: :post %>
+  <% end %>
+<% end %>
+<% if user_signed_in? %>
+  <h3>Add a Comment</h3>
+  <%= form_with model: Comment.new, url: comments_path, local: true do |form| %>
+    <%= form.hidden_field :photo_id, value: @photo.id %>
+    <%= form.hidden_field :author_id, value: current_user.id %>
+
+    <div>
+      <%= form.text_area :body, placeholder: "Write a comment..." %>
+    </div>
+
+    <div>
+      <%= form.submit "Post Comment" %>
+    </div>
+  <% end %>
+<% end %>

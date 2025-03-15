@@ -1,7 +1,7 @@
 class PhotosController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
-  def index
-    @photos = Photo.all
+  def show
+    @photo = Photo.find(params[:id])
   end
 end

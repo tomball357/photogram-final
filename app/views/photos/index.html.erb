@@ -1,0 +1,18 @@
+<% if user_signed_in? %>
+  <h2>Add a new photo</h2>
+  <%= form_with model: Photo.new, url: photos_path, local: true do |form| %>
+    <div>
+      <%= form.label :image, "Image" %>
+      <%= form.text_field :image %>
+    </div>
+
+    <div>
+      <%= form.label :caption, "Caption" %>
+      <%= form.text_area :caption %>
+    </div>
+
+    <div>
+      <%= form.submit "Add photo" %>
+    </div>
+  <% end %>
+<% end %>
